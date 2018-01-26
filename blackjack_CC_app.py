@@ -135,14 +135,19 @@ class ResourcesSection(GridLayout):
 
 class CountingMethodPage(FloatLayout):
     '''This class contains the CountingmethodPage widgets and functions. User selects the shoe size and counting method
-
+        by entering a number into the input box and pressing method button.
 
         content_1: contains text telling user to enter shoe size
         shoe_input: textinput widget that allows user input
         back_button: allows user to go back to the previos page, whichis the Home page
-        
-
-
+        hi_lo_button: Selcts the Hi Lo counting method and goes to All Methods page
+        ko_button: Selects KO counting method and goes to ALl methods page
+        ho_1_button: slects Hi-Opt I counting method
+        ho_2-button: selects Hi-Opt II counting method
+        halves_buttion: selects Halves counting method and goes to all methods page
+        omege_button: selects Omega II counting method and goes to all methods page
+        red_sevens_button: selects Red Sevens counting method and goes to all methods page
+        sen_count_button: selects Zen count method and goes to all methods
     '''
     
     def __init__(self, **kwargs):
@@ -194,7 +199,10 @@ class CountingMethodPage(FloatLayout):
 
         
     def go_to_allmethodspage(self, instance, *args):
-        global shoe
+        '''Checks to see if a valid number entered into shoe_input, sets the size of shoe,
+            sets game to counting method button selected, and goes to the all methods page'''
+        
+        global shoe     # contains the number of decks in shoe, used in multiple locations
         shoe = self.shoe_input.text
         print(shoe)
         if shoe != '':            
@@ -203,7 +211,7 @@ class CountingMethodPage(FloatLayout):
                     shoe = int(self.shoe_input.text)
                     print(type(shoe))
                     sm.current = 'Method'
-                    global game
+                    global game     # cointains the type of counting method to determine count, used in multiple locations
                     game = instance.text
                     #print(game)
                     #print('a method button was pressed')
@@ -218,10 +226,14 @@ class CountingMethodPage(FloatLayout):
             self.error_popup()
 
     def go_back(self, *args):
+        ''' bound to back button, returns user to home page'''
+        
         print('Back button on the methods page pressed')
         sm.current = 'Home'
 
     def error_popup(self):
+        '''creates a popup widget prompting user to enter a valid integer to countine to all methods page'''
+        
         content = GridLayout()
         content.rows = 2
         popup_text = Label(text='Please enter a  valid number to continue')
@@ -235,6 +247,16 @@ class CountingMethodPage(FloatLayout):
     
 
 class AllMethodsPage(FloatLayout):
+    '''
+        
+
+
+
+
+
+
+
+    '''
     
     def __init__(self, **kwargs):
         super(AllMethodsPage, self).__init__(**kwargs)
@@ -315,9 +337,7 @@ class AllMethodsPage(FloatLayout):
 
         self.restart_button = Button(text='RESTART', size_hint=(.13, .10), pos_hint={'x':.3109, 'y':.17})
         self.restart_button.bind(on_release = self.restart )
-        self.add_widget(self.restart_button)
-
-        
+        self.add_widget(self.restart_button)        
 
         self.start_button = Button(text='START', size_hint=(.13, .10), pos_hint={'x':.7, 'y':.7})
         self.start_button.bind(on_release = self.start )
@@ -463,9 +483,7 @@ class AllMethodsPage(FloatLayout):
         self.button_log.clear()
 
     '''
-            
-
-
+    
     def add_count(self, instance):
 
         if instance.text != 'UNDO' and instance.text != 'START' and instance.text != 'RESTART':
