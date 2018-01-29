@@ -74,20 +74,21 @@ class InstructionsSection(FloatLayout):
                     First read and understand how
                     counting cards works and take
                     a look at the different methods
-                    of counting, then select one. Once
-                    selected, enter the amount of decks
-                    in the dealers shoe. Then as the
-                    game goes on, enter in every card
+                    of counting, then select one.\n\n
+                    Once selected, enter the amount of
+                    decks in the dealers shoe. Then as
+                    the game goes on, enter in every card
                     that appears on the table. The app
                     will count the cards up for you,
                     calculaating both the running count
-                    and true count. The app will tell
-                    you when you have the advantage over
-                    the house so you can increase bets.
+                    and true count.\n\n
+                    The app will tell you when you have
+                    the advantage over the house so you
+                    can increase bets accordingly.
                     '''
 
         self.add_widget(Label(text=self.guide, font_size = 20, text_size=(550, None), size_hint=(.1, .05), pos_hint={'x':.5, 'y':.48}))
-        self.back_button = Button(text='Back', size_hint=(.15, .119), pos_hint={'x':0, 'y':.88} )
+        self.back_button = Button(text='Back', size_hint=(.15, .119), pos_hint={'x':0, 'y':.89} )
         self.back_button.bind(on_release = self.go_back )
         self.add_widget(self.back_button)
 
@@ -247,15 +248,20 @@ class CountingMethodPage(FloatLayout):
     
 
 class AllMethodsPage(FloatLayout):
-    '''
-        
+    ''' This class contains ALl mehtods page and its widgets. This class creates page that lets user enter
+        which cards have been played and displays the the count and cards remaining as the game continues.
 
-
-
-
-
-
-
+        button_log: list that holds last button pressed
+        start_trigger: hold boolean indicating if count started
+        red_trigger: indicates if red seven button needs to be on
+        game_list: dictionary that holds dictionary with the type of counting mehtod and count value for each card
+                    for each key-value pair
+        back_button: returns user to counting methods page
+        ace - 2 buttons: self explanatory, they are buttons corresponding to cards played
+        undo_button: will undo the last card press call and remove it from button log
+        restart_button: restarts count from the start and clears button log
+        start_button: starts count and displauys current values
+        count_info: label containing all data values for the game that are displayed to the user
     '''
     
     def __init__(self, **kwargs):
@@ -345,13 +351,20 @@ class AllMethodsPage(FloatLayout):
 
     
     def update_count(self, instance, *args):
-        print(instance.text)
+        ''' takes the new inputs from stored values and updates count displayed on the screen
+            bound to all card buttons so it is ran after every time a card is played.
+
+            This function checks which card was pressed and if card is still in the shoe then
+            removes from the total and updates true and running count.
+
+        '''
+        #print(instance.text)
         
         if self.start_trigger:
             
             if instance.text == 'A' and self.ace_rem >= 1:
                 self.ace_rem -= 1
-                print(self.ace_rem)
+                #print(self.ace_rem)
                 self.running_count = self.running_count + self.game_list[game]['A']
                 self.true_count = round( self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -359,7 +372,7 @@ class AllMethodsPage(FloatLayout):
                 
             elif instance.text == 'K' and self.king_rem >= 1:
                 self.king_rem -= 1
-                print(self.king_rem)
+                #print(self.king_rem)
                 self.running_count = self.running_count + self.game_list[game]['K']
                 self.true_count = round( self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -367,7 +380,7 @@ class AllMethodsPage(FloatLayout):
                 
             elif instance.text == 'Q' and self.queen_rem >= 1:
                 self.queen_rem -= 1
-                print(self.queen_rem)
+                #print(self.queen_rem)
                 self.running_count = self.running_count + self.game_list[game]['Q']
                 self.true_count = round( self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -375,7 +388,7 @@ class AllMethodsPage(FloatLayout):
                 
             elif instance.text == 'J' and self.jack_rem >= 1:
                 self.jack_rem -= 1
-                print(self.jack_rem)
+                #print(self.jack_rem)
                 self.running_count = self.running_count + self.game_list[game]['J']
                 self.true_count = round( self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -383,7 +396,7 @@ class AllMethodsPage(FloatLayout):
                 
             elif instance.text == '10' and self.ten_rem >= 1:
                 self.ten_rem -= 1
-                print(self.ten_rem)
+                #print(self.ten_rem)
                 self.running_count = self.running_count + self.game_list[game]['10']
                 self.true_count = round( self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -391,7 +404,7 @@ class AllMethodsPage(FloatLayout):
                 
             elif instance.text == '9' and self.nine_rem >= 1:
                 self.nine_rem -= 1
-                print(self.nine_rem)
+                #print(self.nine_rem)
                 self.running_count = self.running_count + self.game_list[game]['9']
                 self.true_count = round( self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -399,7 +412,7 @@ class AllMethodsPage(FloatLayout):
         
             elif instance.text == '8' and self.eight_rem >= 1:
                 self.eight_rem -= 1
-                print(self.eight_rem)
+                #print(self.eight_rem)
                 self.running_count = self.running_count + self.game_list[game]['8']
                 self.true_count = round( self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -407,7 +420,7 @@ class AllMethodsPage(FloatLayout):
                 
             elif instance.text == '7' and self.seven_rem >= 1:
                 self.seven_rem -= 1
-                print(self.seven_rem)
+                #print(self.seven_rem)
                 self.running_count = self.running_count + self.game_list[game]['7']
                 self.true_count = round( self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -415,7 +428,7 @@ class AllMethodsPage(FloatLayout):
 
             elif instance.text == 'Red 7' and self.seven_rem >= 1:
                 self.seven_rem -= 1
-                print(self.seven_rem)
+                #print(self.seven_rem)
                 self.running_count = self.running_count + self.game_list[game]['R7']
                 self.true_count = round(self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -423,7 +436,7 @@ class AllMethodsPage(FloatLayout):
                 
             elif instance.text == '6' and self.six_rem >= 1:
                 self.six_rem -= 1
-                print(self.six_rem)
+                #print(self.six_rem)
                 self.running_count = self.running_count + self.game_list[game]['6']
                 self.true_count = round( self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -431,7 +444,7 @@ class AllMethodsPage(FloatLayout):
                 
             elif instance.text == '5' and self.five_rem >= 1:
                 self.five_rem -= 1
-                print(self.five_rem)
+                #print(self.five_rem)
                 self.running_count = self.running_count + self.game_list[game]['5']
                 self.true_count = round( self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -439,7 +452,7 @@ class AllMethodsPage(FloatLayout):
                 
             elif instance.text == '4' and self.four_rem >= 1:
                 self.four_rem -= 1
-                print(self.four_rem)
+                #print(self.four_rem)
                 self.running_count = self.running_count + self.game_list[game]['4']
                 self.true_count = round( self.running_count / self.decks_rem, 2 )
                 self.remove_widget(self.count_info)
@@ -447,7 +460,7 @@ class AllMethodsPage(FloatLayout):
                 
             elif instance.text == '3' and self.three_rem >= 1:
                 self.three_rem -= 1
-                print(self.three_rem)
+                #print(self.three_rem)
                 self.running_count = self.running_count + self.game_list[game]['3']
                 self.true_count = round(self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
@@ -455,15 +468,18 @@ class AllMethodsPage(FloatLayout):
                 
             elif instance.text == '2' and self.two_rem >= 1:
                 self.two_rem -= 1
-                print(self.two_rem)
+                #print(self.two_rem)
                 self.running_count = self.running_count + self.game_list[game]['2']
                 self.true_count = round(self.running_count / self.decks_rem, 2)
                 self.remove_widget(self.count_info)
                 self.add_count(instance)
             
             
-        else:
-            print('Start button not pressed')
+        #else:
+            #print('Start button not pressed')
+
+
+    # reset_deck() function removed; app no longer updates count per individual deck
     '''
     def reset_deck(self):
         self.ace_rem = 4 * int(shoe)
@@ -484,7 +500,13 @@ class AllMethodsPage(FloatLayout):
 
     '''
     
-    def add_count(self, instance):
+    def add_count(self, instance, *args):
+        ''' function checks which button pressed;
+            if it is a card it updates all data stored and updates the string to be displayed.
+            if it is undo, clears last item in lob and updates the data and displayed string.
+            if its  restart, it will set all data variables to intial values and clear log
+            if start, it activates the string for the first time and removes start button
+        '''
 
         if instance.text != 'UNDO' and instance.text != 'START' and instance.text != 'RESTART':
             self.button_log.append(instance.text)
@@ -499,7 +521,8 @@ class AllMethodsPage(FloatLayout):
             else:
                 self.decks_rem -= 1
   
-            
+
+        # This string contains all the displayed output to the user as the count progress 
         formatted_string = '''
 
 
@@ -532,8 +555,14 @@ class AllMethodsPage(FloatLayout):
         self.count_info = Label(text=formatted_string, size_hint=(.09, .09), pos_hint={'x':.67, 'y':.60})
         self.add_widget(self.count_info)
         
-    def start(self, instance):
-        print(shoe)
+    def start(self, instance, *args):
+        ''' starts the count by initializing all values bsaed on size of shoe and
+            setting start_trigger to True. If count method is Red Sevens, it will
+            activate red seven button
+
+            function is bound to start_button
+        '''
+        #print(shoe)
         self.start_trigger = True
         self.decks_rem = int(shoe)
         self.running_count = 0 
@@ -566,7 +595,10 @@ class AllMethodsPage(FloatLayout):
         
 
     def undo(self, instance, *args):
-
+        ''' reverses what the last card button pressed by checking the button log. Once values are adjusted,
+            it removes last item in button log.
+        '''
+        
         if len(self.button_log) > 0 and self.start_trigger and self.decks_rem > 0:
             
             self.remove_widget(self.count_info)
@@ -579,8 +611,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == 'K':
                 if self.king_rem < 4 * int(shoe):
                     self.king_rem += 1
@@ -589,8 +621,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')                
+                #else:
+                    #print('Skip undo')                
             elif self.button_log[-1] == 'Q':
                 if self.queen_rem < 4 * int(shoe):
                     self.queen_rem += 1
@@ -599,8 +631,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == 'J':
                 if self.jack_rem < 4 * int(shoe):
                     self.jack_rem += 1
@@ -609,8 +641,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == '10':
                 if self.ten_rem < 4 * int(shoe):
                     self.ten_rem += 1
@@ -619,8 +651,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == '9':
                 if self.nine_rem < 4 * int(shoe):
                     self.nine_rem += 1
@@ -629,8 +661,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == '8':
                 if self.eight_rem < 4 * int(shoe):
                     self.eight_rem += 1
@@ -639,8 +671,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == '7':
                 if self.seven_rem < 4 * int(shoe):
                     self.seven_rem += 1
@@ -649,8 +681,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == 'Red 7':
                 if self.seven_rem < 4 * int(shoe):
                     self.seven_rem += 1
@@ -659,8 +691,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == '6':
                 if self.six_rem < 4 * int(shoe):
                     self.six_rem += 1
@@ -669,8 +701,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == '5':
                 if self.five_rem < 4 * int(shoe):
                     self.five_rem += 1
@@ -679,8 +711,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == '4':
                 if self.four_rem < 4 * int(shoe):
                     self.four_rem += 1
@@ -689,8 +721,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == '3':
                 if self.three_rem < 4 * int(shoe):
                     self.three_rem += 1
@@ -699,8 +731,8 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
+                #else:
+                    #print('Skip undo')
             elif self.button_log[-1] == '2':
                 if self.two_rem < 4 * int(shoe):
                     self.two_rem += 1
@@ -709,13 +741,17 @@ class AllMethodsPage(FloatLayout):
                     self.true_count = round( self.running_count / self.decks_rem, 2)
                     del self.button_log[-1]
                     self.add_count(instance)
-                else:
-                    print('Skip undo')
-        else:
-            print('Button log empty. Do nothing')
+                #else:
+                    #print('Skip undo')
+        #else:
+            #print('Button log empty. Do nothing')
 
 
     def restart(self, instance, *args):
+        ''' restarst current count by setting all values to initial values
+            and can;t be undone.
+        '''
+        
         if self.start_trigger:
             self.running_count = 0 
             self.true_count = 0
@@ -738,13 +774,15 @@ class AllMethodsPage(FloatLayout):
             self.button_log.clear()
             self.remove_widget(self.count_info)
             self.add_count(instance)
-        else:
-            print('Can not restart if start has not been pressed')
+        #else:
+            #print('Can not restart if start has not been pressed')
         
         
 
     def go_back(self, *args):
-        print('Back button on the all methods page pressed')
+        '''returns user to the counting methods page; bound to back_button.'''
+        
+        #print('Back button on the all methods page pressed')
         self.button_log.clear()
         if self.start_trigger:
             self.remove_widget(self.count_info)
@@ -757,6 +795,15 @@ class AllMethodsPage(FloatLayout):
 
 
 class HomePageScreen(Screen):
+    '''
+        HomePageScreen class contains the screen in the ScreenManager that
+        contains the HomePage() object and all its widgets within.
+
+        Subclassed from kivy.screen
+
+        homepage_objects: creates a HomePage object that contains all the buttons
+                          and labels within that object
+    '''
     
     def __init__(self, **kwargs):
         super(HomePageScreen, self).__init__(**kwargs)
@@ -764,6 +811,15 @@ class HomePageScreen(Screen):
         self.add_widget(self.homepage_objects)
 
 class HowToPageScreen(Screen):
+    '''
+        HowToPageScreen class contains the screen in the ScreenManager that
+        contains the HowToPage() object and all its widgets within.
+
+        Subclassed from kivy.screen
+
+        howtopage_objects: creates a HowToPage() object that contains all the buttons
+                           and labels within that object.
+    '''
     
     def __init__(self, **kwargs):
         super(HowToPageScreen, self).__init__(**kwargs)
@@ -771,6 +827,15 @@ class HowToPageScreen(Screen):
         self.add_widget(self.howtopage_objects)
 
 class CountingMethodScreen(Screen):
+    '''
+        CountingMethodScreen class contains the screen in the ScreenManager that
+        contains the CountingMethodPage{} object and all its widgets within.
+
+        Subclassed from kivy.screen
+
+        countingmethodpage_objects: creates a HowToPage() object that contains all the buttons
+                           and labels within that object.
+    '''
 
     def __init__(self, **kwargs):
         super(CountingMethodScreen, self).__init__(**kwargs)
@@ -778,6 +843,15 @@ class CountingMethodScreen(Screen):
         self.add_widget(self.countingmethodpage_objects)
 
 class AllMethodsScreen(Screen):
+    '''
+        AllMethodsScreen class contains the screen in the ScreenManager that
+        contains the AllMethodsPage() object and all its widgets within.
+
+        Subclassed from kivy.screen
+
+        allmethodspage_objects: creates a AllMethodsPage() object that contains all the buttons
+                           and labels within that object.
+    '''
 
     def __init__(self, **kwargs):
         super(AllMethodsScreen, self).__init__(**kwargs)
@@ -788,6 +862,10 @@ class AllMethodsScreen(Screen):
 class CardCounterApp(App):
 
     def build(self):
+
+        ''' sm is used as a kivy ScreenManager allowing user to go from one screen
+            in the application to the next by changing screens.
+        '''
         
         global sm
         sm = ScreenManager()      
